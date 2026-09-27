@@ -13,7 +13,6 @@ class EntityManager {
     // value: if value != 0 indicates index in the entityHandles array is available for a new entity
     private ArrayList<Integer> availableEntityIds = new ArrayList<>();
 
-    // should never be an instance, utility/single class
     EntityManager(){
         for(int i = 0; i < generation.length; i++) {
            availableEntityIds.add(i);

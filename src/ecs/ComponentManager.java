@@ -1,22 +1,13 @@
 package ecs;
 
-import ecs.component.ColliderComponent;
-import ecs.component.Component;
-import ecs.component.DamageComponent;
-import ecs.component.HealthComponent;
-import ecs.component.NameComponent;
-import ecs.component.PositionComponent;
-import ecs.component.VelocityComponent;
+import ecs.component.*;
 import java.util.HashMap;
-import java.util.Map;
-// holds lookup tables for all entity components
-// needs to sync with the enity manager
+
 class ComponentManager {
 
-    // data base for entites and their comonents
-    private Map<Class<? extends Component>, Component[]> componentsArrayMap = new HashMap<>();
+    // database for entites and their comonents
+    private HashMap<Class<? extends Component>, Component[]> componentsArrayMap = new HashMap<>();
 
-    // should not have an instance
     ComponentManager(){
         componentsArrayMap.put(ColliderComponent.class, new ColliderComponent[EcsConfig.ENTITY_LIMIT]);
         componentsArrayMap.put(DamageComponent.class, new DamageComponent[EcsConfig.ENTITY_LIMIT]);
