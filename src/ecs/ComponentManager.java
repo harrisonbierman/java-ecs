@@ -1,6 +1,7 @@
 package ecs;
 
 import ecs.component.*;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 
 class ComponentManager {
@@ -9,12 +10,17 @@ class ComponentManager {
     private HashMap<Class<? extends Component>, Component[]> componentsArrayMap = new HashMap<>();
 
     ComponentManager(){
-        componentsArrayMap.put(ColliderComponent.class, new ColliderComponent[EcsConfig.ENTITY_LIMIT]);
-        componentsArrayMap.put(DamageComponent.class, new DamageComponent[EcsConfig.ENTITY_LIMIT]);
-        componentsArrayMap.put(HealthComponent.class, new HealthComponent[EcsConfig.ENTITY_LIMIT]);
-        componentsArrayMap.put(NameComponent.class, new NameComponent[EcsConfig.ENTITY_LIMIT]);
-        componentsArrayMap.put(PositionComponent.class, new PositionComponent[EcsConfig.ENTITY_LIMIT]);
-        componentsArrayMap.put(VelocityComponent.class, new VelocityComponent[EcsConfig.ENTITY_LIMIT]);
+        register(ColliderComponent.class);
+        register(DamageComponent.class);
+        register(HealthComponent.class);
+        register(NameComponent.class);
+        register(PositionComponent.class);
+        register(VelocityComponent.class);
+    }
+
+    private <T extends Component> void register(Class<T> componentClass) {
+        T[] componentArray = (T[])Array.newInstance(componentClass, EcsConfig.ENTITY_LIMIT);
+        componentsArrayMap.put(componentClass, componentArray);
     }
 
     void addComponent(int entityId, Component component) {
@@ -32,6 +38,10 @@ class ComponentManager {
         }
 
         return componentClass.cast(componentsArray[entityId]);
+    }
+
+    <T extends Component> T[] getComponentArray(Class<T> componentClass) {
+        return (T[])componentsArrayMap.get(componentClass);
     }
 
     void removeAllComponents(int entityId) {
