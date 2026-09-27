@@ -10,6 +10,8 @@ public class EntityManager {
     // index: is the entity ID the 
     // value: is secondary ID or generation
     private static int[] generation = new int[EcsConfig.ENTITY_LIMIT];
+    
+    private static boolean[] exists = new boolean[EcsConfig.ENTITY_LIMIT];
 
     // index: is irrelavent
     // value: if value != 0 indicates index in the entityHandles array is available for a new entity
@@ -27,12 +29,17 @@ public class EntityManager {
 
     public static EntityHandle createEntity() {
         
-        int id = availableEntityIds.remove(0);
-        int nextGeneration = ++generation[id];
+        // remove last element for O(1) operation, acts as a stack
+        try {
+            int id = availableEntityIds.remove(availableEntityIds.size() - 1);
+            // destroyEntity() increases the generation by 1 for validation
+            // that is why we do not increase it on creation
+            return new EntityHandle(id, generation[id]);
+        } catch (IndexOutOfBoundsException e) {
+            System.out.println("Exceeded Entity Limit of " + EcsConfig.ENTITY_LIMIT + ". increase EscConfig.ENTITY_LIMIT");
+        }
 
-        EntityHandle entityHandle =  new EntityHandle(id, nextGeneration);
-        generation[id] = nextGeneration;
-        return entityHandle;
+        return null;
     }
 
     public static void destroyEntity(EntityHandle entityHandle) {

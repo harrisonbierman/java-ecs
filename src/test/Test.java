@@ -14,6 +14,10 @@ public class Test {
         EntityHandle entityHandle = EntityManager.createEntity();
         EntityHandle entityHandle1 = EntityManager.createEntity();
 
+        for (int i = 0; i < 100; i ++) {
+            EntityManager.createEntity();
+        }
+
         EntityManager.addComponent(entityHandle, new NameComponent("Steve"));
         EntityManager.addComponent(entityHandle, new HealthComponent(16));
         EntityManager.addComponent(entityHandle, new PositionComponent(23, 44));
