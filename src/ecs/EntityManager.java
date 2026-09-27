@@ -2,7 +2,6 @@ package ecs;
 
 import ecs.component.Component;
 import ecs.component.ComponentManager;
-import ecs.component.ComponentType;
 import java.util.ArrayList;
 
 public class EntityManager {
@@ -49,11 +48,11 @@ public class EntityManager {
         }
     }
 
-    public static Component getComponent(EntityHandle entityHandle, ComponentType componentType) {
+    public static Component getComponent(EntityHandle entityHandle, Class<? extends Component> componentClass) {
 
         // check of entity exists
         if(entityExists(entityHandle)) {
-            return ComponentManager.get(entityHandle.id(), componentType);
+            return ComponentManager.get(entityHandle.id(), componentClass);
         }
         
         // throw error later
