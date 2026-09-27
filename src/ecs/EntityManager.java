@@ -11,8 +11,6 @@ public class EntityManager {
     // value: is secondary ID or generation
     private static int[] generation = new int[EcsConfig.ENTITY_LIMIT];
     
-    private static boolean[] exists = new boolean[EcsConfig.ENTITY_LIMIT];
-
     // index: is irrelavent
     // value: if value != 0 indicates index in the entityHandles array is available for a new entity
     private static ArrayList<Integer> availableEntityIds = new ArrayList<>();
@@ -45,6 +43,7 @@ public class EntityManager {
     public static void destroyEntity(EntityHandle entityHandle) {
         if(entityExists(entityHandle)) {
             availableEntityIds.add(entityHandle.id());
+            ++generation[entityHandle.id()];
             ComponentManager.removeAllComponents(entityHandle.id());
         }
     }
@@ -55,11 +54,13 @@ public class EntityManager {
         }
     }
 
-    public static Component getComponent(EntityHandle entityHandle, Class<? extends Component> componentClass) {
-
+    // this function might become deprecated because I will want to return the array of comonent
+    // and maniplulate that in Query so that only one Hash look up is done per Component Array
+    public static <T extends Component> T getComponent(EntityHandle entityHandle, Class<T> componentClass) {
         // check of entity exists
         if(entityExists(entityHandle)) {
-            return ComponentManager.get(entityHandle.id(), componentClass);
+            Component component = ComponentManager.get(entityHandle.id(), componentClass);
+            return componentClass.cast(component);
         }
         
         // throw error later
