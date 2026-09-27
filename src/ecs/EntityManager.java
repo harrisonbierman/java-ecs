@@ -35,10 +35,8 @@ class EntityManager {
     }
 
     void destroy(EntityHandle entityHandle) {
-        if(exists(entityHandle)) {
             availableEntityIds.add(entityHandle.id());
             ++generation[entityHandle.id()];
-        }
     }
 
     boolean exists(EntityHandle entityHandle) {

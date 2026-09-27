@@ -18,8 +18,10 @@ public class World {
    }
 
    public void destroy(EntityHandle entityHandle) {
-    entityManager.destroy(entityHandle);
-    componentManager.removeAllComponents(entityHandle.id());
+    if (entityManager.exists(entityHandle)){
+        entityManager.destroy(entityHandle);
+        componentManager.removeAllComponents(entityHandle.id());
+    }
    }
 
    public void addComponent(EntityHandle entityHandle, Component component) {
@@ -36,6 +38,11 @@ public class World {
         return componentManager.getComponent(entityHandle.id(), componentClass);
     }
     return null;
+   }
+
+   // also should not be in public API
+   public <T extends Component> T[] getComponentArray(Class<T> componentClass) {
+        return componentManager.getComponentArray(componentClass);
    }
 
 }
