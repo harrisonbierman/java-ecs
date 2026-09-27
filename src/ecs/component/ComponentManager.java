@@ -27,8 +27,11 @@ public class ComponentManager {
         componentsArrayMap.get(component.getClass())[entityId] = component;
     }
 
-    public static Component get(int entityId, Class<? extends Component> componentClass) {
-        return componentsArrayMap.get(componentClass)[entityId];
+    // the T makes sure a specific class is passed back instead of Component, it could be HealthComponent
+    public static <T extends Component> T get(int entityId, Class<T> componentClass) {
+        Component component = componentsArrayMap.get(componentClass)[entityId];
+
+        return componentClass.cast(component);
     }
 
     public static void removeAllComponents(int entityId) {
