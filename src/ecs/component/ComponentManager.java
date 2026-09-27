@@ -7,27 +7,20 @@ import java.util.Map;
 // needs to sync with the enity manager
 public class ComponentManager {
 
-    private static ColliderComponent[] colliderComponentsArray = new ColliderComponent[EcsConfig.ENTITY_LIMIT];
-    private static DamageComponent[] damageComponentsArray = new DamageComponent[EcsConfig.ENTITY_LIMIT];
-    private static HealthComponent[] healthComponentsArray = new HealthComponent[EcsConfig.ENTITY_LIMIT];
-    private static NameComponent[] nameComponentsArray = new NameComponent[EcsConfig.ENTITY_LIMIT];
-    private static PositionComponent[] positionComponentsArray = new PositionComponent[EcsConfig.ENTITY_LIMIT];
-    private static VelocityComponent[] velocityComponentsArray = new VelocityComponent[EcsConfig.ENTITY_LIMIT];
-
+    // data base for entites and their comonents
     private static Map<Class<? extends Component>, Component[]> componentsArrayMap = new HashMap<>();
-
 
     // should not have an instance
     private ComponentManager(){};
 
     // initialization
     static {
-        componentsArrayMap.put(ColliderComponent.class, colliderComponentsArray);
-        componentsArrayMap.put(DamageComponent.class, damageComponentsArray);
-        componentsArrayMap.put(HealthComponent.class, healthComponentsArray);
-        componentsArrayMap.put(NameComponent.class, nameComponentsArray);
-        componentsArrayMap.put(PositionComponent.class, positionComponentsArray);
-        componentsArrayMap.put(VelocityComponent.class, velocityComponentsArray);
+        componentsArrayMap.put(ColliderComponent.class, new ColliderComponent[EcsConfig.ENTITY_LIMIT]);
+        componentsArrayMap.put(DamageComponent.class, new DamageComponent[EcsConfig.ENTITY_LIMIT]);
+        componentsArrayMap.put(HealthComponent.class, new HealthComponent[EcsConfig.ENTITY_LIMIT]);
+        componentsArrayMap.put(NameComponent.class, new NameComponent[EcsConfig.ENTITY_LIMIT]);
+        componentsArrayMap.put(PositionComponent.class, new PositionComponent[EcsConfig.ENTITY_LIMIT]);
+        componentsArrayMap.put(VelocityComponent.class, new VelocityComponent[EcsConfig.ENTITY_LIMIT]);
     }
 
     public static void add(int entityId, Component component) {
