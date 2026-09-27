@@ -29,7 +29,19 @@ public class ComponentManager {
 
     // the T makes sure a specific class is passed back instead of Component, it could be HealthComponent
     public static <T extends Component> T get(int entityId, Class<T> componentClass) {
-        Component component = componentsArrayMap.get(componentClass)[entityId];
+        Component[] componentsArray = componentsArrayMap.get(componentClass);
+
+        if(componentsArray == null) {
+            throw new IllegalArgumentException(
+                componentClass.getSimpleName() + " is not registered with ComponentManager"
+            );
+        }
+
+        Component component = componentsArray[entityId];
+
+        if (component == null) {
+            return null;
+        }
 
         return componentClass.cast(component);
     }
