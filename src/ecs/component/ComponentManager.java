@@ -37,13 +37,7 @@ public class ComponentManager {
             );
         }
 
-        Component component = componentsArray[entityId];
-
-        if (component == null) {
-            return null;
-        }
-
-        return componentClass.cast(component);
+        return componentClass.cast(componentsArray[entityId]);
     }
 
     public static void removeAllComponents(int entityId) {
