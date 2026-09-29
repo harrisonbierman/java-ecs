@@ -1,21 +1,20 @@
 package ecs;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.function.BooleanSupplier;
 
 public class Schedule implements EcsSystem {
-    ArrayList<EcsSystem> systems = new  ArrayList<>();
-    BooleanSupplier supplier;
+    private final EcsSystem[] systems;
+    private final BooleanSupplier supplier;
 
-    public Schedule(BooleanSupplier supplier, ArrayList<EcsSystem> systems) {
+    private Schedule(BooleanSupplier supplier, EcsSystem[] systems) {
         this.systems = systems;
         this.supplier = supplier;
     }
 
     public static class Builder {
-        ArrayList<EcsSystem> systems = new ArrayList<>();
-        BooleanSupplier supplier;
+        private final ArrayList<EcsSystem> systems = new ArrayList<>();
+        private final BooleanSupplier supplier;
 
         public Builder(){
             this.supplier = () -> true;
@@ -31,7 +30,10 @@ public class Schedule implements EcsSystem {
         }
 
         public Schedule build() {
-            return new Schedule(this.supplier, this.systems);
+            return new Schedule(
+                    this.supplier,
+                    this.systems.toArray(new EcsSystem[0])
+            );
         }
     }
 
