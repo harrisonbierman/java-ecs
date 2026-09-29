@@ -36,4 +36,9 @@ public class World {
         return new Query2<>(entityManager, componentStorageA, componentStorageB);
     }
 
+    public <A extends Component> Query1 query1(Class<A> classA) {
+        ComponentStorage<A> componentStorageA = componentManager.getComponentStorage(classA);
+        return new Query1<>(entityManager, componentStorageA);
+    }
+
 }
