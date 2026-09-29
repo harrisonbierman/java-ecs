@@ -29,11 +29,16 @@ public class Test {
         world.addComponent(entityHandle3, new PositionComponent(22f, 33f));
         world.addComponent(entityHandle3, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
+        class frameCounter {
+            int count = 0;
+        }
+
+        frameCounter frames = new frameCounter();
+
         Schedule frameSchedule = new Schedule();
 
-        Schedule tickSchedule = new Schedule();
+        Schedule tickSchedule = new Schedule(() -> frames.count % 2 == 0);
 
-        // I think I like this one better
         frameSchedule.create(
             new UpdatePositionSystem(world),
             new PrintPositionSystem(world)
@@ -44,9 +49,10 @@ public class Test {
                 new SendNetworkPacket()
         );
 
-        for(int i = 0; i < 10; i++) {
+        for(; frames.count < 10; frames.count++) {
+            System.out.println(frames.count);
             frameSchedule.run();
-            tickSchedule.runIf(i % 2 == 0);
+            tickSchedule.run();
         }
     }
 
