@@ -8,16 +8,31 @@ public class Schedule implements EcsSystem {
     ArrayList<EcsSystem> systems = new  ArrayList<>();
     BooleanSupplier supplier;
 
-    public Schedule() {
-        this.supplier = () -> true;
-    }
-
-    public Schedule(BooleanSupplier supplier) {
+    public Schedule(BooleanSupplier supplier, ArrayList<EcsSystem> systems) {
+        this.systems = systems;
         this.supplier = supplier;
     }
 
-    public void create(EcsSystem... systems) {
-        this.systems.addAll(Arrays.asList(systems));
+    public static class Builder {
+        ArrayList<EcsSystem> systems = new ArrayList<>();
+        BooleanSupplier supplier;
+
+        public Builder(){
+            this.supplier = () -> true;
+        }
+
+        public Builder(BooleanSupplier supplier){
+            this.supplier = supplier;
+        }
+
+        public Builder add(EcsSystem system) {
+            this.systems.add(system);
+            return this;
+        }
+
+        public Schedule build() {
+            return new Schedule(this.supplier, this.systems);
+        }
     }
 
     @Override

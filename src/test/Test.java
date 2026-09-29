@@ -35,24 +35,18 @@ public class Test {
 
         frameCounter frames = new frameCounter();
 
-        Schedule frameSchedule = new Schedule();
-
-        Schedule tickSchedule = new Schedule(() -> frames.count % 2 == 0);
-
-        frameSchedule.create(
-            new UpdatePositionSystem(world),
-            new PrintPositionSystem(world)
-        );
-
-
-        tickSchedule.create(
-                new SendNetworkPacket()
-        );
+        Schedule frameSchedule =
+                new Schedule.Builder()
+                        .add(new UpdatePositionSystem(world))
+                        .add(new PrintPositionSystem(world))
+                        .add(new Schedule.Builder(() -> frames.count % 2 == 0)
+                                .add(new SendNetworkPacket())
+                                .build())
+                        .build();
 
         for(; frames.count < 10; frames.count++) {
             System.out.println(frames.count);
             frameSchedule.run();
-            tickSchedule.run();
         }
     }
 
