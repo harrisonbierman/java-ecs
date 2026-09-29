@@ -6,14 +6,7 @@ import java.util.Arrays;
 public class Schedule implements EcsSystem {
     ArrayList<EcsSystem> systems = new  ArrayList<>();
 
-
     public Schedule() {}
-
-    // builder pattern
-    public Schedule then(EcsSystem system) {
-        systems.add(system);
-        return this;
-    }
 
     public void create(EcsSystem... systems) {
         this.systems.addAll(Arrays.asList(systems));
@@ -24,5 +17,13 @@ public class Schedule implements EcsSystem {
         for (EcsSystem system : systems) {
             system.run();
         }
+    }
+
+    public <T> void runIf(boolean condition) {
+       if(condition) {
+           for (EcsSystem system : systems) {
+               system.run();
+           }
+       }
     }
 }

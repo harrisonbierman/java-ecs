@@ -29,27 +29,25 @@ public class Test {
         world.addComponent(entityHandle3, new PositionComponent(22f, 33f));
         world.addComponent(entityHandle3, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
-        Schedule schedule = new Schedule();
+        Schedule frameSchedule = new Schedule();
 
-        // this is one api possiblitly
-        schedule.then(new UpdatePositionSystem(world))
-                .then(new PrintPositionSystem(world))
-                .then(new UpdatePositionSystem(world))
-                .then(new PrintPositionSystem(world));
+        Schedule tickSchedule = new Schedule();
 
-       Schedule schedule2 = new Schedule();
-
-       // I think I like this one better
-       schedule2.create(
-               new UpdatePositionSystem(world),
-               new PrintPositionSystem(world),
-               new UpdatePositionSystem(world),
-               new PrintPositionSystem(world)
-       );
-
-        schedule.run();
+        // I think I like this one better
+        frameSchedule.create(
+            new UpdatePositionSystem(world),
+            new PrintPositionSystem(world)
+        );
 
 
+        tickSchedule.create(
+                new SendNetworkPacket()
+        );
+
+        for(int i = 0; i < 10; i++) {
+            frameSchedule.run();
+            tickSchedule.runIf(i % 2 == 0);
+        }
     }
 
 
