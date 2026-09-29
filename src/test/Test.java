@@ -2,10 +2,8 @@ package test;
 
 import ecs.EntityHandle;
 import ecs.World;
-import ecs.Query2;
-import ecs.component.*;
-
-import java.util.Arrays;
+uimport ecs.component.*;
+import ecs.Schedule;
 
 public class Test {
 
@@ -31,21 +29,27 @@ public class Test {
         world.addComponent(entityHandle3, new PositionComponent(22f, 33f));
         world.addComponent(entityHandle3, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
+        Schedule schedule = new Schedule();
 
-        UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(world);
-        PrintPositionSystem printPositionSystem = new PrintPositionSystem(world);
+        // this is one api possiblitly
+        schedule.then(new UpdatePositionSystem(world))
+                .then(new PrintPositionSystem(world))
+                .then(new UpdatePositionSystem(world))
+                .then(new PrintPositionSystem(world));
 
-        // frame 1
-        updatePositionSystem.run();
-        printPositionSystem.run();
+       Schedule schedule2 = new Schedule();
 
-        // frame 2
-        updatePositionSystem.run();
-        printPositionSystem.run();
+       // I think I like this one better
+       schedule2.create(
+               new UpdatePositionSystem(world),
+               new PrintPositionSystem(world),
+               new UpdatePositionSystem(world),
+               new PrintPositionSystem(world)
+       );
 
-        // frame 3
-        updatePositionSystem.run();
-        printPositionSystem.run();
+        schedule.run();
+
+
     }
 
 
