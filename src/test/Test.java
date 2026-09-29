@@ -15,6 +15,7 @@ public class Test {
 
         EntityHandle entityHandle1 = world.spawn();
         EntityHandle entityHandle2 = world.spawn();
+        EntityHandle entityHandle3 = world.spawn();
 
         world.addComponent(entityHandle1, new NameComponent("Steve"));
         world.addComponent(entityHandle1, new HealthComponent(16));
@@ -26,20 +27,26 @@ public class Test {
         world.addComponent(entityHandle2, new VelocityComponent(4.5f, -2.4f));
         world.addComponent(entityHandle2, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
-        Query2<PositionComponent, VelocityComponent> queryPositionVelocity =
-                world.query2(PositionComponent.class, VelocityComponent.class);
+        world.addComponent(entityHandle3, new NameComponent("Chair"));
+        world.addComponent(entityHandle3, new PositionComponent(22f, 33f));
+        world.addComponent(entityHandle3, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
-        queryPositionVelocity
-                .forEach((entityHandle, position, velocity) -> {
-                    System.out.println(entityHandle.id());
-                    System.out.println(position);
-                    System.out.println(velocity);
-                    position.x = velocity.x;
-                    position.y = velocity.y;
-                    System.out.println(entityHandle.id());
-                    System.out.println(position);
-                    System.out.println(velocity);
 
-                });
+        UpdatePositionSystem updatePositionSystem = new UpdatePositionSystem(world);
+        PrintPositionSystem printPositionSystem = new PrintPositionSystem(world);
+
+        // frame 1
+        updatePositionSystem.run();
+        printPositionSystem.run();
+
+        // frame 2
+        updatePositionSystem.run();
+        printPositionSystem.run();
+
+        // frame 3
+        updatePositionSystem.run();
+        printPositionSystem.run();
     }
+
+
 }
