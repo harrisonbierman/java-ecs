@@ -22,7 +22,7 @@ public class ComponentStorage<T extends Component> {
         componentsArray[entityId] = null;
     }
 
-    <T extends Component> T[] getArray() {
+    T[] getArray() {
         return (T[])componentsArray;
     }
 

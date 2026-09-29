@@ -24,19 +24,19 @@ public class World {
         }
     }
 
-    public void addComponent(EntityHandle entityHandle, Component component) {
+    public <T extends Component> void addComponent(EntityHandle entityHandle, T component) {
         if(entityManager.exists(entityHandle)) {
             componentManager.addComponent(entityHandle.id(), component);
         }
     }
 
-    public <A extends Component, B extends Component> Query2 query2(Class<A> classA, Class<B> classB) {
+    public <A extends Component, B extends Component> Query2<A,B> query2(Class<A> classA, Class<B> classB) {
         ComponentStorage<A> componentStorageA = componentManager.getComponentStorage(classA);
         ComponentStorage<B> componentStorageB = componentManager.getComponentStorage(classB);
         return new Query2<>(entityManager, componentStorageA, componentStorageB);
     }
 
-    public <A extends Component> Query1 query1(Class<A> classA) {
+    public <A extends Component> Query1<A> query1(Class<A> classA) {
         ComponentStorage<A> componentStorageA = componentManager.getComponentStorage(classA);
         return new Query1<>(entityManager, componentStorageA);
     }
