@@ -2,11 +2,10 @@ package test;
 
 import ecs.EntityHandle;
 import ecs.World;
-import ecs.component.ColliderComponent;
-import ecs.component.Component;
-import ecs.component.HealthComponent;
-import ecs.component.NameComponent;
-import ecs.component.PositionComponent;
+import ecs.Query2;
+import ecs.component.*;
+
+import java.util.Arrays;
 
 public class Test {
 
@@ -14,39 +13,33 @@ public class Test {
 
         World world = new World();
 
-        EntityHandle entityHandle = world.spawn();
         EntityHandle entityHandle1 = world.spawn();
+        EntityHandle entityHandle2 = world.spawn();
 
-        for (int i = 0; i < 100; i ++) {
-            world.spawn();
-        }
+        world.addComponent(entityHandle1, new NameComponent("Steve"));
+        world.addComponent(entityHandle1, new HealthComponent(16));
+        world.addComponent(entityHandle1, new PositionComponent(23f, 44f));
+        world.addComponent(entityHandle1, new VelocityComponent(2.3f, 3.2f));
 
-        world.addComponent(entityHandle, new NameComponent("Steve"));
-        world.addComponent(entityHandle, new HealthComponent(16));
-        world.addComponent(entityHandle, new PositionComponent(23, 44));
+        world.addComponent(entityHandle2, new NameComponent("Adam"));
+        world.addComponent(entityHandle2, new PositionComponent(22f, 33f));
+        world.addComponent(entityHandle2, new VelocityComponent(4.5f, -2.4f));
+        world.addComponent(entityHandle2, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
-        world.addComponent(entityHandle1, new NameComponent("Adam"));
-        world.addComponent(entityHandle1, new ColliderComponent(2.5f, 4.4f, 1.2f));
+        Query2<PositionComponent, VelocityComponent> queryPositionVelocity =
+                world.query2(PositionComponent.class, VelocityComponent.class);
 
-        Component steveName = world.getComponent(entityHandle, NameComponent.class);
-        Component myHealth = world.getComponent(entityHandle, HealthComponent.class);
-        Component myPosition = world.getComponent(entityHandle, PositionComponent.class);
+        queryPositionVelocity
+                .forEach((entityHandle, position, velocity) -> {
+                    System.out.println(entityHandle.id());
+                    System.out.println(position);
+                    System.out.println(velocity);
+                    position.x = velocity.x;
+                    position.y = velocity.y;
+                    System.out.println(entityHandle.id());
+                    System.out.println(position);
+                    System.out.println(velocity);
 
-        Component adamName = world.getComponent(entityHandle1, NameComponent.class);
-        Component myCollider = world.getComponent(entityHandle1, ColliderComponent.class);
-
-        System.out.println(steveName);
-        System.out.println(myHealth);
-        System.out.println(myPosition);
-
-        System.out.println(adamName);
-        System.out.println(myCollider);
-
-        world.destroy(entityHandle);
-
-        System.out.println(steveName);
-        
-
-        System.out.println(HealthComponent.class.getTypeName());
+                });
     }
 }

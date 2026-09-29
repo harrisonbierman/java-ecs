@@ -22,6 +22,10 @@ public class ComponentStorage<T extends Component> {
         componentsArray[entityId] = null;
     }
 
+    <T extends Component> T[] getArray() {
+        return (T[])componentsArray;
+    }
+
     private void resize(int newSize) {
         componentsArray = Arrays.copyOf(componentsArray, newSize);
     }

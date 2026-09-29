@@ -23,7 +23,7 @@ class EntityManager {
         
         // remove last element for O(1) operation, acts as a stack
         try {
-            int id = availableEntityIds.remove(availableEntityIds.size() - 1);
+            int id = availableEntityIds.removeLast();
             // destroyEntity() increases the generation by 1 for validation
             // that is why we do not increase it on creation
             return new EntityHandle(id, generation[id]);
@@ -39,15 +39,13 @@ class EntityManager {
             ++generation[entityHandle.id()];
     }
 
+    // this assumes the entity exists and is use in the query
+    EntityHandle getHandle(int id) {
+        return new EntityHandle(id , generation[id]);
+    }
+
     boolean exists(EntityHandle entityHandle) {
         return entityHandle.generation() == generation[entityHandle.id()];
     }
-
-    
-
-
-
-
-
 }
 
