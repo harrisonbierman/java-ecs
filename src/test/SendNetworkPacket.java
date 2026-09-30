@@ -1,11 +1,11 @@
 package test;
 
 import ecs.EcsSystem;
+import ecs.World;
 
 public class SendNetworkPacket implements EcsSystem {
 
-    @Override
-    public void run() {
+    public void run(World world) {
         System.out.println("Send Network Packet");
     }
 }

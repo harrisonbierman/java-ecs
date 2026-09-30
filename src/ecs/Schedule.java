@@ -38,10 +38,10 @@ public class Schedule implements EcsSystem {
     }
 
     @Override
-    public void run(){
+    public void run(World world){
         if (supplier.getAsBoolean()) {
             for (EcsSystem system : systems) {
-                system.run();
+                system.run(world);
             }
         }
     }

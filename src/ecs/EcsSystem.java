@@ -1,5 +1,5 @@
 package ecs;
 
 public interface EcsSystem {
-    void run();
+    void run(World world);
 }

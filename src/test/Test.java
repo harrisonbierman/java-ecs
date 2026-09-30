@@ -37,8 +37,8 @@ public class Test {
 
         Schedule frameSchedule =
                 new Schedule.Builder()
-                        .add(new UpdatePositionSystem(world))
-                        .add(new PrintPositionSystem(world))
+                        .add(new UpdatePositionSystem())
+                        .add(new PrintPositionSystem())
                         .add(new Schedule.Builder(() -> frames.count % 2 == 0)
                                 .add(new SendNetworkPacket())
                                 .build())
@@ -46,7 +46,7 @@ public class Test {
 
         for(; frames.count < 10; frames.count++) {
             System.out.println(frames.count);
-            frameSchedule.run();
+            frameSchedule.run(world);
         }
     }
 
