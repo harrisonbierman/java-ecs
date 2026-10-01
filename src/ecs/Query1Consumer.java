@@ -1,7 +1,5 @@
 package ecs;
 
-import ecs.component.Component;
-
 @FunctionalInterface
 public interface Query1Consumer<A extends Component>{
 

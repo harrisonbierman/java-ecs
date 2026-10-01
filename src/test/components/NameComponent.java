@@ -1,4 +1,6 @@
-package ecs.component;
+package test.components;
+
+import ecs.Component;
 
 public class NameComponent extends Component {
     

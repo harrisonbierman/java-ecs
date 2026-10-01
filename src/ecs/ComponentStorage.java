@@ -1,7 +1,5 @@
 package ecs;
 
-import ecs.component.Component;
-
 import java.lang.reflect.Array;
 import java.util.Arrays;
 

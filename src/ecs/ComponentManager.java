@@ -1,6 +1,6 @@
 package ecs;
 
-import ecs.component.*;
+import test.components.*;
 
 import java.util.HashMap;
 

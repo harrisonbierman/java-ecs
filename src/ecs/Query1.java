@@ -1,7 +1,5 @@
 package ecs;
 
-import ecs.component.Component;
-
 public final class Query1<A extends Component> {
 
     private final ComponentStorage<A> componentStorageA;

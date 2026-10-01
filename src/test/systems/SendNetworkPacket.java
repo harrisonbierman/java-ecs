@@ -1,4 +1,4 @@
-package test;
+package test.systems;
 
 import ecs.EcsSystem;
 import ecs.World;

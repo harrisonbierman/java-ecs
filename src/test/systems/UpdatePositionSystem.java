@@ -1,10 +1,10 @@
-package test;
+package test.systems;
 
 import ecs.EcsSystem;
 import ecs.World;
 import ecs.Query2;
-import ecs.component.PositionComponent;
-import ecs.component.VelocityComponent;
+import test.components.PositionComponent;
+import test.components.VelocityComponent;
 
 public class UpdatePositionSystem implements EcsSystem {
     // function run in scheduler

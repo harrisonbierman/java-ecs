@@ -2,8 +2,11 @@ package test;
 
 import ecs.EntityHandle;
 import ecs.World;
-import ecs.component.*;
 import ecs.Schedule;
+import test.components.*;
+import test.systems.PrintPositionSystem;
+import test.systems.SendNetworkPacket;
+import test.systems.UpdatePositionSystem;
 
 public class Test {
 

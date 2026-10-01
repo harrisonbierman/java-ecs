@@ -1,6 +1,8 @@
-package ecs.component;
+package test.components;
 
-public class VelocityComponent extends Component{
+import ecs.Component;
+
+public class VelocityComponent extends Component {
    public float x;
    public float y;
 

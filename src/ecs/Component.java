@@ -1,4 +1,4 @@
-package ecs.component;
+package ecs;
 
 import java.lang.reflect.Field;
 

@@ -1,10 +1,10 @@
-package test;
+package test.systems;
 
 import ecs.EcsSystem;
 import ecs.World;
 import ecs.Query2;
-import ecs.component.NameComponent;
-import ecs.component.PositionComponent;
+import test.components.NameComponent;
+import test.components.PositionComponent;
 
 public class PrintPositionSystem implements EcsSystem {
 

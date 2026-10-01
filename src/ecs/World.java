@@ -1,7 +1,5 @@
 package ecs;
 
-import ecs.component.Component;
-
 public class World {
     EntityManager entityManager;
     ComponentManager componentManager;

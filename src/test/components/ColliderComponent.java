@@ -1,6 +1,8 @@
-package ecs.component;
+package test.components;
 
-public class ColliderComponent extends Component{
+import ecs.Component;
+
+public class ColliderComponent extends Component {
     
     public float origin;
     public float height;
