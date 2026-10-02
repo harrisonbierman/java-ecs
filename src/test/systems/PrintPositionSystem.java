@@ -14,9 +14,9 @@ public class PrintPositionSystem implements EcsSystem {
                 NameComponent
                 >
                 query = world.query2(
-                        PositionComponent.class,
-                        NameComponent.class
-                );
+                PositionComponent.class,
+                NameComponent.class
+        );
 
         query.forEach((entityHandle, position, name) -> {
             System.out.println("Entity ID: " + entityHandle.id());

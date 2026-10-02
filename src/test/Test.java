@@ -47,7 +47,7 @@ public class Test {
                                 .build())
                         .build();
 
-        for(; frames.count < 10; frames.count++) {
+        for (; frames.count < 10; frames.count++) {
             System.out.println(frames.count);
             frameSchedule.run(world);
         }

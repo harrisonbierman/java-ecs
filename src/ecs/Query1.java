@@ -10,13 +10,13 @@ public final class Query1<A extends Component> {
         this.componentStorageA = componentStorageA;
     }
 
-    public void forEach(Query1Consumer<A> query1Consumer){
+    public void forEach(Query1Consumer<A> query1Consumer) {
         A[] componentArrayA = componentStorageA.getArray();
 
-        for(int id = 0; id < componentArrayA.length; id++){
+        for (int id = 0; id < componentArrayA.length; id++) {
             A componentA = componentArrayA[id];
 
-            if(componentA != null){
+            if (componentA != null) {
                 query1Consumer.access(entityManager.getHandle(id), componentA);
             }
         }

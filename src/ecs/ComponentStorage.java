@@ -21,7 +21,7 @@ public class ComponentStorage<T extends Component> {
     }
 
     T[] getArray() {
-        return (T[])componentsArray;
+        return (T[]) componentsArray;
     }
 
     private void resize(int newSize) {

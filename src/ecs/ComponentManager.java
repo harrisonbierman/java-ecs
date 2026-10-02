@@ -9,7 +9,7 @@ class ComponentManager {
     // database for entities and their components
     private HashMap<Class<? extends Component>, ComponentStorage<? extends Component>> componentStorageHashMap = new HashMap<>();
 
-    ComponentManager(){
+    ComponentManager() {
         register(ColliderComponent.class);
         register(DamageComponent.class);
         register(HealthComponent.class);
@@ -24,8 +24,8 @@ class ComponentManager {
     }
 
     <T extends Component> void addComponent(int entityId, T component) {
-         ComponentStorage<T> componentStorage = (ComponentStorage<T>) componentStorageHashMap.get(component.getClass());
-         componentStorage.addComponent(entityId, component);
+        ComponentStorage<T> componentStorage = (ComponentStorage<T>) componentStorageHashMap.get(component.getClass());
+        componentStorage.addComponent(entityId, component);
     }
 
     <T extends Component> ComponentStorage<T> getComponentStorage(Class<T> componentClass) {
@@ -33,9 +33,9 @@ class ComponentManager {
     }
 
     void removeAllComponents(int entityId) {
-        for (var componentStorage : componentStorageHashMap.values()){
+        for (var componentStorage : componentStorageHashMap.values()) {
             componentStorage.removeComponent(entityId);
         }
-        
+
     }
 }

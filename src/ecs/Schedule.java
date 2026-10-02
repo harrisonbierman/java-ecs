@@ -16,11 +16,11 @@ public class Schedule implements EcsSystem {
         private final ArrayList<EcsSystem> systems = new ArrayList<>();
         private final BooleanSupplier supplier;
 
-        public Builder(){
+        public Builder() {
             this.supplier = () -> true;
         }
 
-        public Builder(BooleanSupplier supplier){
+        public Builder(BooleanSupplier supplier) {
             this.supplier = supplier;
         }
 
@@ -38,7 +38,7 @@ public class Schedule implements EcsSystem {
     }
 
     @Override
-    public void run(World world){
+    public void run(World world) {
         if (supplier.getAsBoolean()) {
             for (EcsSystem system : systems) {
                 system.run(world);

@@ -17,5 +17,5 @@ public final class EntityHandle {
     public int generation() {
         return generation;
     }
-    
+
 }

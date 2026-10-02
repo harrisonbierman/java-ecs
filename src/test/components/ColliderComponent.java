@@ -3,7 +3,7 @@ package test.components;
 import ecs.Component;
 
 public class ColliderComponent extends Component {
-    
+
     public float origin;
     public float height;
     public float width;
@@ -14,5 +14,5 @@ public class ColliderComponent extends Component {
         this.width = width;
     }
 
-    
+
 }
