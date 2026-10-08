@@ -1,0 +1,56 @@
+package ecs;
+
+import java.util.Arrays;
+import java.util.HashMap;
+
+public class IntArray2dMap<V> {
+    HashMap<Key, V> hashMap = new HashMap<>();
+
+    V put(int[][] key, V value) {
+        Key internalKey = new Key(key);
+        return hashMap.put(internalKey, value);
+    }
+
+    V get(int[][] key) {
+        Key internalKey = new Key(key);
+        return hashMap.get(internalKey);
+    }
+
+    private static final class Key {
+
+        int[][] value;
+
+
+        Key(int[][] value) {
+            this.value = new int[value.length][];
+            for (int i = 0; i < value.length; i++) {
+                this.value[i] = Arrays.copyOf(value[i], value[i].length);
+            }
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Key other &&
+                    compare2dArray(value, other.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Arrays.hashCode(value);
+        }
+
+        private boolean compare2dArray(int[][] a, int[][] b) {
+            if (a.length != b.length) {
+                return false;
+            }
+
+            for (int i = 0; i < a.length; i++) {
+                if (!Arrays.equals(a[i], b[i])) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+}

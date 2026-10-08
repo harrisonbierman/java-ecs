@@ -1,20 +1,23 @@
 package test.systems;
 
+import ecs.Component;
 import ecs.EcsSystem;
+import ecs.Query;
 import ecs.World;
-import ecs.Query2;
 import test.components.PositionComponent;
 import test.components.VelocityComponent;
 
 public class UpdatePositionSystem implements EcsSystem {
     // function run in scheduler
     public void run(World world) {
-        Query2<PositionComponent, VelocityComponent> query =
-                world.query2(PositionComponent.class, VelocityComponent.class);
+        Query query = world.queryBuilder().with(PositionComponent.class, VelocityComponent.class).build();
 
-        query.forEach(((entityHandle, position, velocity) -> {
+        query.foreach((entity, components) -> {
+            PositionComponent position = (PositionComponent) components[0];
+            VelocityComponent velocity = (VelocityComponent) components[1];
+
             position.x += velocity.x;
             position.y += velocity.y;
-        }));
+        });
     }
 }

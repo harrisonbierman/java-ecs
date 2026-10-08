@@ -8,6 +8,8 @@ import test.systems.PrintPositionSystem;
 import test.systems.SendNetworkPacket;
 import test.systems.UpdatePositionSystem;
 
+import javax.swing.text.Position;
+
 public class Test {
 
     public static void main(String[] args) throws Exception {
@@ -15,22 +17,28 @@ public class Test {
         World world = new World();
 
         EntityHandle entityHandle1 = world.spawn();
-        EntityHandle entityHandle2 = world.spawn();
-        EntityHandle entityHandle3 = world.spawn();
 
-        world.addComponent(entityHandle1, new NameComponent("Steve"));
-        world.addComponent(entityHandle1, new HealthComponent(16));
-        world.addComponent(entityHandle1, new PositionComponent(23f, 44f));
-        world.addComponent(entityHandle1, new VelocityComponent(2.3f, 3.2f));
+        for (int i = 0; i < 2; i++) {
+            float randpx = (float) (Math.random() * 21);
+            float randpy = (float) (Math.random() * 21);
+            float randvx = (float) (Math.random() * 2);
+            float randvy = (float) (Math.random() * 2);
+            EntityHandle entity = world.spawn();
+            world.addComponents(
+                    entity,
+                    new PositionComponent(randpx, randpy),
+                    new VelocityComponent(randvx, randvy)
+            );
+        }
 
-        world.addComponent(entityHandle2, new NameComponent("Adam"));
-        world.addComponent(entityHandle2, new PositionComponent(22f, 33f));
-        world.addComponent(entityHandle2, new VelocityComponent(4.5f, -2.4f));
-        world.addComponent(entityHandle2, new ColliderComponent(2.5f, 4.4f, 1.2f));
+        world.addComponents(
+                entityHandle1,
+                new NameComponent("Steve"),
+                new HealthComponent(16),
+                new PositionComponent(23f, 44f),
+                new VelocityComponent(1f, 1f)
+        );
 
-        world.addComponent(entityHandle3, new NameComponent("Chair"));
-        world.addComponent(entityHandle3, new PositionComponent(22f, 33f));
-        world.addComponent(entityHandle3, new ColliderComponent(2.5f, 4.4f, 1.2f));
 
         class frameCounter {
             int count = 0;
@@ -42,9 +50,6 @@ public class Test {
                 new Schedule.Builder()
                         .add(new UpdatePositionSystem())
                         .add(new PrintPositionSystem())
-                        .add(new Schedule.Builder(() -> frames.count % 2 == 0)
-                                .add(new SendNetworkPacket())
-                                .build())
                         .build();
 
         for (; frames.count < 10; frames.count++) {

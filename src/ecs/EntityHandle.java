@@ -1,8 +1,10 @@
 package ecs;
 
+// this is not a record specifically because I require that the
+// constructor is package-private, record does not allow that distinction.
 public final class EntityHandle {
-    final int id;
-    final int generation;
+    private final int id;
+    private final int generation;
 
     // no public keyword means its package-private
     EntityHandle(int id, int generation) {
