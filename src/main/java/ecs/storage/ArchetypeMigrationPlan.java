@@ -1,4 +1,4 @@
-package ecs;
+package ecs.storage;
 
 public record ArchetypeMigrationPlan(
         int[] from,

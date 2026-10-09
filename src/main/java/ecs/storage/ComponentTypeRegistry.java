@@ -1,18 +1,19 @@
-package ecs;
+package ecs.storage;
+
+import ecs.Component;
 
 import java.util.HashMap;
-import java.util.HashSet;
 
-class ComponentTypeRegistry {
+public class ComponentTypeRegistry {
 
     // Maps that go in opposite directions
-    private HashMap<Class<? extends Component>, Integer> componentMap = new HashMap<>();
-    private HashMap<Integer, Class<? extends Component>> classMap = new HashMap<>();
+    private final HashMap<Class<? extends Component>, Integer> componentMap = new HashMap<>();
+    private final HashMap<Integer, Class<? extends Component>> classMap = new HashMap<>();
 
     private int nextId = 0;
 
 
-    int[] resolveComponentIds(Class<? extends Component>[] componentClasses) {
+    public int[] resolveComponentIds(Class<? extends Component>[] componentClasses) {
         int[] result = new int[componentClasses.length];
 
         for (int i = 0; i < componentClasses.length; i++) {
@@ -32,7 +33,7 @@ class ComponentTypeRegistry {
     }
 
 
-    int[] resolveExistingComponentIds(Class<? extends Component>[] componentClasses) {
+    public int[] resolveExistingComponentIds(Class<? extends Component>[] componentClasses) {
 
         int[] result = new int[componentClasses.length];
 
@@ -67,7 +68,7 @@ class ComponentTypeRegistry {
         return componentClasses;
     }
 
-    Class<? extends Component>[] resolveComponentClasses(Component[] components) {
+    public Class<? extends Component>[] resolveComponentClasses(Component[] components) {
         Class<? extends Component>[] result = new Class[components.length];
 
         for (int i = 0; i < components.length; i++) {

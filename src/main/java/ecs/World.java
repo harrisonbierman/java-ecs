@@ -1,5 +1,15 @@
 package ecs;
 
+import ecs.storage.ArchetypeManager;
+import ecs.storage.ArchetypeMigrationPlan;
+import ecs.storage.ArchetypeRegistry;
+import ecs.storage.ComponentBatch;
+import ecs.storage.ComponentBatcher;
+import ecs.storage.ComponentStorage;
+import ecs.storage.ComponentTypeRegistry;
+import ecs.query.QueryCache;
+import ecs.query.QueryExecutor;
+
 public class World {
     EntityManager entityManager;
 
@@ -31,12 +41,12 @@ public class World {
     public EntityHandle spawn() {
         EntityHandle handle = entityManager.spawn();
 
-        ValidEntityHandle valid = entityManager.validate(handle);
+        entityManager.validate(handle);
 
         // I'm not sure if everything breaks if I don't
         // add it to an empty storage first, but I'm not
         // here to find out right now. Test later.
-        componentStorage.insert(valid);
+        componentStorage.insert(handle);
 
         return handle;
     }
@@ -45,11 +55,8 @@ public class World {
     // public facing API simply calls it destroy, really we are queueing it
     // to be destroyed at the end of the frame.
     public void destroy(EntityHandle handle) {
-
-        ValidEntityHandle valid = entityManager.validate(handle);
-
-        entityManager.destroy(valid);
-
+        entityManager.validate(handle);
+        entityManager.destroy(handle);
     }
 
     public boolean exists(EntityHandle handle) {
@@ -60,7 +67,7 @@ public class World {
 
     public <T extends Component> void addComponents(EntityHandle handle, Component... components) {
 
-        ValidEntityHandle valid = entityManager.validate(handle);
+        entityManager.validate(handle);
 
         Class<? extends Component>[] componentClasses = componentTypeRegistry.resolveComponentClasses(components);
         int[] componentIds = componentTypeRegistry.resolveComponentIds(componentClasses);
@@ -69,10 +76,10 @@ public class World {
         componentBatcher.duplicateException(batch);
         batch = componentBatcher.pairedInsertionSort(batch);
 
-        ArchetypeMigrationPlan migrationPlan = archetypeManager.addComponents(valid, batch.ids());
+        ArchetypeMigrationPlan migrationPlan = archetypeManager.addComponents(handle, batch.ids());
         boolean newArchetype = archetypeRegistry.resolveArchetype(migrationPlan.to());
 
-        componentStorage.migrate(valid, migrationPlan, newArchetype, batch);
+        componentStorage.migrate(handle, migrationPlan, newArchetype, batch);
 
     }
 

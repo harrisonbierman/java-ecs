@@ -1,12 +1,15 @@
-package ecs;
+package ecs.storage;
+
+import ecs.EcsConfig;
+import ecs.EntityHandle;
 
 import java.util.Arrays;
 
-class ArchetypeManager {
+public class ArchetypeManager {
 
     private int[][] archetypes = new int[EcsConfig.ENTITY_LIMIT][0];
 
-    ArchetypeMigrationPlan addComponents(ValidEntityHandle handle, int[] componentIds) {
+    public ArchetypeMigrationPlan addComponents(EntityHandle handle, int[] componentIds) {
 
         int entityId = handle.id();
 
@@ -20,7 +23,7 @@ class ArchetypeManager {
         return new ArchetypeMigrationPlan(previousArchetype, newArchetype);
     }
 
-    private void removeAllComponents(ValidEntityHandle entity) {
+    private void removeAllComponents(EntityHandle entity) {
         archetypes[entity.id()] = new int[1];
     }
 

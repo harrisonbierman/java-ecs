@@ -1,17 +1,20 @@
-package ecs;
+package ecs.storage;
 
+
+import ecs.Component;
+import ecs.EntityHandle;
 
 import java.util.Arrays;
 
 // dynamic table
-public class ArchetypeTable {
+class ArchetypeTable {
     int capacity = 16;
     int tableLength = 0;
 
-    final int[] archetype;
+    public final int[] archetype;
 
-    ValidEntityHandle[] handles = new ValidEntityHandle[capacity];
-    Component[][] components;
+    public EntityHandle[] handles = new EntityHandle[capacity];
+    public Component[][] components;
 
 
     ArchetypeTable(int[] archetype) {
@@ -20,7 +23,7 @@ public class ArchetypeTable {
     }
 
 
-    int createEmptySlot() {
+    public int createEmptySlot() {
 
         ++tableLength;
 
@@ -43,7 +46,7 @@ public class ArchetypeTable {
 
 
     // swap removes entity handle
-    void remove(ValidEntityHandle handle) {
+    public void remove(EntityHandle handle) {
 
         int remove = getIndex(handle);
 
@@ -62,7 +65,7 @@ public class ArchetypeTable {
         --tableLength;
     }
 
-    int getIndex(ValidEntityHandle handle) {
+    public int getIndex(EntityHandle handle) {
         int targetId = handle.id();
         // linear search for shorter arrays
         // If array == BIG, binary search
@@ -78,11 +81,11 @@ public class ArchetypeTable {
 
     }
 
-    ValidEntityHandle[] getEntityHandles() {
+    public EntityHandle[] getEntityHandles() {
         return Arrays.copyOf(handles, tableLength);
     }
 
-    Component[] getComponents(int componentId) {
+    public Component[] getComponents(int componentId) {
         for (int i = 0; i < archetype.length; i++) {
             if (archetype[i] == componentId) {
                 return Arrays.copyOf(components[i], tableLength);

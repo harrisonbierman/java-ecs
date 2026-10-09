@@ -1,4 +1,4 @@
-package ecs;
+package ecs.collections;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -6,12 +6,12 @@ import java.util.HashMap;
 public class IntArray2dMap<V> {
     HashMap<Key, V> hashMap = new HashMap<>();
 
-    V put(int[][] key, V value) {
+    public V put(int[][] key, V value) {
         Key internalKey = new Key(key);
         return hashMap.put(internalKey, value);
     }
 
-    V get(int[][] key) {
+    public V get(int[][] key) {
         Key internalKey = new Key(key);
         return hashMap.get(internalKey);
     }
@@ -31,14 +31,17 @@ public class IntArray2dMap<V> {
         @Override
         public boolean equals(Object obj) {
             return obj instanceof Key other &&
-                    compare2dArray(value, other.value);
+                    // seems like I might be able to use Array.deepEquals
+                    Arrays.deepEquals(value, other.value);
         }
 
         @Override
         public int hashCode() {
-            return Arrays.hashCode(value);
+            return Arrays.deepHashCode(value);
         }
 
+
+        // didn't even need this because there is already Arrays.deepEquals
         private boolean compare2dArray(int[][] a, int[][] b) {
             if (a.length != b.length) {
                 return false;

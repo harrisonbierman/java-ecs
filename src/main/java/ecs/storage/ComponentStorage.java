@@ -1,17 +1,20 @@
-package ecs;
+package ecs.storage;
+
+import ecs.Component;
+import ecs.EntityHandle;
+import ecs.collections.IntArrayMap;
 
 import java.util.Arrays;
-import java.util.HashMap;
 
 public class ComponentStorage {
     IntArrayMap<ArchetypeTable> storage = new IntArrayMap<>();
 
-    ComponentStorage() {
+    public ComponentStorage() {
         // build default table for entities with no components
         storage.put(new int[0], new ArchetypeTable(new int[0]));
     }
 
-    void insert(ValidEntityHandle handle) {
+    public void insert(EntityHandle handle) {
         ArchetypeTable table = storage.get(new int[0]);
 
         int destIndex = table.createEmptySlot();
@@ -20,8 +23,8 @@ public class ComponentStorage {
 
     }
 
-    void migrate(
-            ValidEntityHandle handle,
+    public void migrate(
+            EntityHandle handle,
             ArchetypeMigrationPlan migrationPlan,
             boolean newArchetype,
             ComponentBatch batch
@@ -68,17 +71,17 @@ public class ComponentStorage {
         tableFrom.remove(handle);
     }
 
-    ValidEntityHandle[] getEntityHandles(int[] archetype) {
+    public EntityHandle[] getEntityHandles(int[] archetype) {
         ArchetypeTable table = storage.get(archetype);
         return table.getEntityHandles();
     }
 
-    Component[] getComponents(int[] archetype, int componentId) {
+    public Component[] getComponents(int[] archetype, int componentId) {
         ArchetypeTable table = storage.get(archetype);
         return table.getComponents(componentId);
     }
 
-    int[][] getAllArchetypes() {
+    public int[][] getAllArchetypes() {
         int[][] result = new int[storage.size()][0];
 
         int i = 0;

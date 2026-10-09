@@ -1,5 +1,7 @@
 package ecs;
 
+import ecs.query.QueryExecutor;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.function.Function;

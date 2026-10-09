@@ -4,22 +4,22 @@ import java.util.ArrayList;
 
 class EntityManager {
 
-    // i = entiyId
+    // i = entityId
     // [0] = generation
     // [1 to end] archetypeIds
-    private int[] generation = new int[EcsConfig.ENTITY_LIMIT];
+    private final int[] generation = new int[EcsConfig.ENTITY_LIMIT];
 
-    // index: is irrelavent
+    // index: is irrelevant
     // value: if value != 0 indicates index in the entityHandles array is available for a new entity
-    private ArrayList<Integer> availableEntityIds = new ArrayList<>();
+    private final ArrayList<Integer> availableEntityIds = new ArrayList<>();
 
-    EntityManager() {
+    public EntityManager() {
         for (int i = 0; i < generation.length; i++) {
             availableEntityIds.add(i);
         }
     }
 
-    EntityHandle spawn() {
+    public EntityHandle spawn() {
 
         if (availableEntityIds.isEmpty()) {
             throw new IndexOutOfBoundsException(
@@ -28,13 +28,13 @@ class EntityManager {
         }
         // remove last element for O(1) operation, acts as a stack
         // removed last because it's a faster operation than removing first and shifting down
-        int id = availableEntityIds.removeLast();
+        int id = availableEntityIds.remove(availableEntityIds.size() - 1);
 
         return new EntityHandle(id, generation[id]);
     }
 
     // called in the flush method at end of frame
-    void destroy(ValidEntityHandle handle) {
+    public void destroy(EntityHandle handle) {
         availableEntityIds.add(handle.id());
         ++generation[handle.id()];
     }
@@ -42,24 +42,22 @@ class EntityManager {
 
     // the validation process does not care if the entity is alive or dead
     // just that the entity exists and is able to be manipulated.
-    ValidEntityHandle validate(EntityHandle handle) {
+    public void validate(EntityHandle handle) {
 
         throwIfNull(handle);
 
         if (!exists(handle)) {
             throw new IllegalArgumentException("Entity does not exist");
         }
-
-        return new ValidEntityHandle(handle.id(), handle.generation());
     }
 
-    void throwIfNull(EntityHandle handle) {
+    public void throwIfNull(EntityHandle handle) {
         if (handle == null) {
             throw new NullPointerException("Entity handle cannot be null");
         }
     }
 
-    boolean exists(EntityHandle handle) {
+    public boolean exists(EntityHandle handle) {
         return generation[handle.id()] == handle.generation();
     }
 

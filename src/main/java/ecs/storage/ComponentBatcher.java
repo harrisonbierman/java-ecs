@@ -1,10 +1,12 @@
-package ecs;
+package ecs.storage;
+
+import ecs.Component;
 
 import java.util.HashSet;
 
-class ComponentBatcher {
+public class ComponentBatcher {
 
-    ComponentBatch pairedInsertionSort(ComponentBatch batch) {
+    public ComponentBatch pairedInsertionSort(ComponentBatch batch) {
 
         int[] ids = batch.ids();
         Component[] components = batch.components();
@@ -28,7 +30,7 @@ class ComponentBatcher {
         return new ComponentBatch(ids, components);
     }
 
-    void duplicateException(ComponentBatch batch) {
+    public void duplicateException(ComponentBatch batch) {
         HashSet<Integer> seen = new HashSet<>();
         int[] ids = batch.ids();
 

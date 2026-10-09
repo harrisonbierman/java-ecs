@@ -1,28 +1,14 @@
-package ecs;
+package ecs.collections;
 
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
+import java.util.HashSet;
 
-public class IntArrayMap<V> {
-    HashMap<Key, V> hashMap = new HashMap<>();
+public class IntArraySet {
+    HashSet<Key> hashSet = new HashSet<>();
 
-    V put(int[] key, V value) {
+    public boolean add(int[] key) {
         Key internalKey = new Key(key);
-        return hashMap.put(internalKey, value);
-    }
-
-    V get(int[] key) {
-        Key internalKey = new Key(key);
-        return hashMap.get(internalKey);
-    }
-
-    int size() {
-        return hashMap.size();
-    }
-
-    Collection<V> values() {
-        return hashMap.values();
+        return hashSet.add(internalKey);
     }
 
     private static final class Key {

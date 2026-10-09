@@ -1,12 +1,12 @@
-package ecs;
+package ecs.storage;
 
-import java.util.HashSet;
+import ecs.collections.IntArraySet;
 
 public class ArchetypeRegistry {
     private IntArraySet archetypeSet = new IntArraySet();
 
     // returns if new archetype is added
-    boolean resolveArchetype(int[] archetype) {
+    public boolean resolveArchetype(int[] archetype) {
 
         return archetypeSet.add(archetype);
     }

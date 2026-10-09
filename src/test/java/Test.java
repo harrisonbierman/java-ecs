@@ -5,10 +5,7 @@ import ecs.World;
 import ecs.Schedule;
 import test.components.*;
 import test.systems.PrintPositionSystem;
-import test.systems.SendNetworkPacket;
 import test.systems.UpdatePositionSystem;
-
-import javax.swing.text.Position;
 
 public class Test {
 
@@ -53,7 +50,6 @@ public class Test {
                         .build();
 
         for (; frames.count < 10; frames.count++) {
-            System.out.println(frames.count);
             frameSchedule.run(world);
         }
     }

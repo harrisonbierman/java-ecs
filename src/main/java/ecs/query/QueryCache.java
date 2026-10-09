@@ -1,6 +1,6 @@
-package ecs;
+package ecs.query;
 
-import java.util.HashMap;
+import ecs.collections.IntArray2dMap;
 
 public class QueryCache {
     IntArray2dMap<int[][]> cacheMap = new IntArray2dMap<>();

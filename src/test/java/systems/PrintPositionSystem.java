@@ -24,7 +24,7 @@ public class PrintPositionSystem implements EcsSystem {
 
         query2.foreach((entity, components) -> {
             PositionComponent position = (PositionComponent) components[0];
-            VelocityComponent velocity = (VelocityComponent) components[3];
+            VelocityComponent velocity = (VelocityComponent) components[1];
 
             System.out.println("Position: x:" + position.x + " y:" + position.y);
         });
